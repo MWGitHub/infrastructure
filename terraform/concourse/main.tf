@@ -7,7 +7,7 @@ resource "digitalocean_droplet" "web" {
   region             = "nyc3"
   size               = "s-1vcpu-1gb"
   image              = "ubuntu-16-04-x64"
-  ssh_keys           = ["${var.ssh_id}"]
+//  ssh_keys           = ["${var.ssh_id}"]
   private_networking = true
   backups            = true
   ipv6               = true
