@@ -13,7 +13,7 @@ variable "lock_name" {
   default = "terraform-locks"
 }
 
-resource "aws_s3_bucket" "terraform-state" {
+resource "aws_s3_bucket" "terraform_state" {
   bucket = "${var.bucket_name}"
   region = "${var.region}"
   acl = "private"
@@ -23,7 +23,7 @@ resource "aws_s3_bucket" "terraform-state" {
   }
 }
 
-resource "aws_dynamodb_table" "terraform-locks" {
+resource "aws_dynamodb_table" "terraform_locks" {
   name = "${var.lock_name}"
   hash_key = "LockID"
   read_capacity = 10
