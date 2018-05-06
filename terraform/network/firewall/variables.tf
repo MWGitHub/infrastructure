@@ -1,0 +1,1 @@
+variable "restricted_tag" {}

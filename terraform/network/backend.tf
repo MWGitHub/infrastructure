@@ -3,7 +3,7 @@
 terraform {
   backend "s3" {
     bucket = "mw-terraform-states"
-    key = "concourse-state"
+    key = "root"
     region = "us-east-1"
     dynamodb_table = "terraform-locks"
   }

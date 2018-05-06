@@ -14,9 +14,16 @@ Install aws cli at [https://aws.amazon.com/cli/](https://aws.amazon.com/cli/) an
 First create the backend resources
 ```bash
 git clone git@github.com:MWGitHub/infrastructure.git
-cd terraform/backend-provision
+cd terraform/setup/backend
 terraform init # initializes the providers needed on first run
 terraform apply # creates the hardware
+```
+
+Create the rest of the resources
+```bash
+cd ../../network
+terraform init
+terraform apply
 ```
 
 ## Reasonings
