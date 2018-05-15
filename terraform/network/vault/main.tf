@@ -39,7 +39,7 @@ resource "digitalocean_droplet" "vault" {
   name = "vault-1"
   region = "nyc1"
   size = "s-1vcpu-1gb"
-  image = "ubuntu-18-04-x64"
+  image = "ubuntu-16-04-x64"
   ssh_keys = ["${var.vault_ssh_id}"]
   backups = false
   ipv6 = true
@@ -47,8 +47,8 @@ resource "digitalocean_droplet" "vault" {
   tags = ["${list(digitalocean_tag.tag.name, var.firewall_restricted_tag)}"]
 
   provisioner "file" {
-    source = "provisioner/"
-    destination = "$HOME/vault"
+    source = "vault/provisioner"
+    destination = "~/vault"
 
     connection {
       type = "ssh"
@@ -58,12 +58,12 @@ resource "digitalocean_droplet" "vault" {
     }
   }
 
-  provisioner "local-exec" {
-    command = "bash echo $AWS_ID $AWS_SECRET $HOME/vault/execute.sh"
-
-    environment {
-      AWS_ID = "AWS_ACCESS_KEY_ID=${aws_iam_access_key.keys.id}"
-      AWS_SECRET = "AWS_SECRET_ACCESS_KEY=${aws_iam_access_key.keys.secret}"
-    }
+  provisioner "remote-exec" {
+    inline = [
+      "export AWS_ACCESS_KEY_ID=${aws_iam_access_key.keys.id}",
+      "export AWS_SECRET_ACCESS_KEY=${aws_iam_access_key.keys.secret}",
+      "chmod +x ~/vault/execute.sh",
+      "~/vault/execute.sh"
+    ]
   }
 }
