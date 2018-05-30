@@ -2,6 +2,10 @@
 
 Setting up and managing infrastructure.
 
+## Repositories  
+
+The main repository now exists on GitLab, GitHub will be a mirror.
+
 ## Installation
 
 Install terraform at [https://www.terraform.io/downloads.html](https://www.terraform.io/downloads.html) and put it into your path.
