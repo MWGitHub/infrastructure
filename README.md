@@ -4,7 +4,7 @@ Setting up and managing infrastructure.
 
 ## Repositories  
 
-The main repository now exists on GitLab, GitHub will be a mirror.
+The main repository now exists on GitLab (https://gitlab.com/mwguy/infrastructure), GitHub will be a mirror.
 
 ## Installation
 
@@ -33,5 +33,5 @@ terraform apply
 ## Reasonings
 
 * Before a backend is created, the infrastructure for it also must be made.
-    * backend-provision has destroy turned off in so state cannot be accidentally lost as easily.
-* The `backend.tf` file is copied and changed so that state collision does not occur.
+    * backend-provision has destroy turned off so state cannot be accidentally lost easily.
+* The `backend.tf` file is copied and changed so state collision does not occur.
