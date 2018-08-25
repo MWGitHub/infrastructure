@@ -10,28 +10,25 @@ The main repository now exists on GitLab (https://gitlab.com/mwguy/infrastructur
 
 Install terraform at [https://www.terraform.io/downloads.html](https://www.terraform.io/downloads.html) and put it into your path.
 
-Install aws cli at [https://aws.amazon.com/cli/](https://aws.amazon.com/cli/) and log in with it with aws configure.
-
+Install the google cloud sdk at [https://cloud.google.com/sdk/](https://cloud.google.com/sdk/).
 
 ## Usage
 
-First create the backend resources
+1. Log into google cloud by executing  
+   `gcloud init`
+1. Execute the following shell command to set up the storage (this only needs to be run once)   
+   `./scripts/gcs-init.sh [PROJECT_ID] [UNIQUE_BUCKET_NAME]`
+1. Create or use an existing DigitalOcean token 
+
+Create all the terraform resources.
 ```bash
 git clone git@gitlab.com:mwguy/infrastructure.git
-cd terraform/setup/backend
-terraform init # initializes the providers needed on first run
-terraform apply # creates the hardware
-```
-
-Create the rest of the resources
-```bash
-cd ../../network
+cd terraform
 terraform init
 terraform apply
 ```
 
 ## Reasonings
 
-* Before a backend is created, the infrastructure for it also must be made.
-    * backend-provision has destroy turned off so state cannot be accidentally lost easily.
-* The `backend.tf` file is copied and changed so state collision does not occur.
+* Terraform's initial state to create the backend is stored locally
+    * To limit the danger of destroying an existing backend, destroy is turned off on the backend configuration
