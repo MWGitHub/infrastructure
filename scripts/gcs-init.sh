@@ -24,3 +24,6 @@ gcloud iam service-accounts create tf-backend --display-name "tf-backend"
 
 # Give permissions for the service account
 gsutil iam ch serviceAccount:tf-backend@"$project_id".iam.gserviceaccount.com:objectAdmin gs://"$bucket"/
+
+# Generate service account key
+gcloud iam service-accounts keys create gcs-backend.json --iam-account tf-backend@"$project_id".iam.gserviceaccount.com
