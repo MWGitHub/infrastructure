@@ -2,12 +2,14 @@ variable do_token {
   description = "The Digital Ocean token associated with the project."
 }
 
-variable restricted_ips {
+variable whitelist_ips {
   type = "list"
-  description = "The ips which can access restricted hosts."
+  default = []
+  description = "The IPs which can access restricted hosts."
 }
 
-variable ssh_ips {
+variable admin_ips {
   type = "list"
-  description = "The ips which can SSH in to a host that allows it."
+  default = []
+  description = "The IPs which have admin access and can open secure shells to resources."
 }

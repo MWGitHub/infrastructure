@@ -10,3 +10,7 @@ output "restricted" {
 output "ssh" {
   value = "${digitalocean_tag.ssh.name}"
 }
+
+output "whitelist" {
+  value = "${digitalocean_tag.whitelist.name}"
+}

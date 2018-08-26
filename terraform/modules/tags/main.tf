@@ -10,3 +10,7 @@ resource "digitalocean_tag" "restricted" {
 resource "digitalocean_tag" "ssh" {
   name = "ssh"
 }
+
+resource "digitalocean_tag" "whitelist" {
+  name = "whitelist"
+}

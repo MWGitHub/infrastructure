@@ -12,6 +12,7 @@ module "firewall" {
   public = "${module.tags.public}"
   restricted = "${module.tags.restricted}"
   ssh = "${module.tags.ssh}"
-  ssh_ips = "${var.ssh_ips}"
-  restricted_ips = "${var.restricted_ips}"
+  whitelist = "${module.tags.whitelist}"
+
+  whitelist_ips = "${var.whitelist_ips}"
 }

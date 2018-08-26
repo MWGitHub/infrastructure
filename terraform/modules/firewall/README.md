@@ -2,14 +2,27 @@
 
 Creates firewall rules with sources and tags.
 
-## Ports and Sources
+## Firewalls
 
 * public
-    * Ports: 443
-    * Sources: All
+    * inbound
+        * ports: 443
+            * sources: 0.0.0.0/0
+        * ports: 22
+            * sources: ssh
+    * outbound
+        * ports: all
 * restricted
-    * Ports: 443, 8000
-    * Sources: public, restricted, internal, specific IPs and ranges
-* ssh
-    * Ports: 22
-    * sources: ssh tags and specific IPs and ranges
+    * inbound
+        * ports: 443, 80
+            * sources: public, restricted
+        * ports: 22
+            * sources: ssh
+    * outbound
+        * ports: all
+* whitelist
+    * inbound
+        * ports: all
+            * sources: specific IPs
+    * outbound
+        * pots: all 

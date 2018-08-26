@@ -2,11 +2,15 @@
 
 Creates tags for resources to use.
 
+Tags are not tied to ports or IPs but are more of a signal for what type a resource is or what types a resource allows.
+
 ## Tag Types
 
 * public
-    * All connections are allowed through.
+    * Signals a resource which is accessible to the world.
 * restricted
-    * Only connections with the specified tags or IPs are allowed.
+    * Signals a resource that is internal.
 * ssh
-    * Only connections that have the ssh tag or specific IPs are allowed.
+    * Signals a resource that can be secure shelled into.
+* whitelist
+    * Signals a resource that allows any whitelisted IPs.

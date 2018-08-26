@@ -2,7 +2,6 @@ variable "public" {
   description = "The tag for public"
 }
 
-
 variable "restricted" {
   description = "The tag for the restricted"
 }
@@ -11,14 +10,12 @@ variable "ssh" {
   description = "The tag for ssh access"
 }
 
-variable "restricted_ips" {
-  type = "list"
-  default = []
-  description = "IPs allowed to access restricted hosts"
+variable "whitelist" {
+  description = "The tag for whitelist"
 }
 
-variable "ssh_ips" {
+variable "whitelist_ips" {
   type = "list"
   default = []
-  description = "IP addresses for sshing into a host"
+  description = "IPs allowed to access internal resources"
 }
