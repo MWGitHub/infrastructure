@@ -1,29 +1,52 @@
-resource "digitalocean_firewall" "restricted" {
-  name = "restricted"
-  tags = ["${var.restricted_tag}"]
+resource "digitalocean_firewall" "main" {
+  name = "main"
 
-  inbound_rule {
-    protocol = "tcp"
-    port_range = "22"
-    source_addresses = ["24.46.198.203"]
-    source_tags = ["${var.restricted_tag}"]
-  }
+  inbound_rule = [
+    # public
+    {
+      protocol = "tcp"
+      port_range = "443"
+      source_tags = ["${var.public}"]
+      source_addresses = ["0.0.0.0/0", "::/0"]
+    },
+    # restricted
+    {
+      protocol = "tcp"
+      port_range = "443"
+      source_addresses = []
+      source_tags = ["${var.restricted}"]
+      source_addresses = ["${var.restricted_ips}"]
+    },
+    {
+      protocol = "tcp"
+      port_range = "8000"
+      source_tags = ["${var.restricted}"]
+      source_addresses = ["${var.restricted_ips}"]
+    },
+    # ssh
+    {
+      protocol = "tcp"
+      port_range = "22"
+      source_tags = ["${var.ssh}"]
+      source_addresses = ["${var.ssh_ips}"]
+    }
+  ]
 
-  outbound_rule {
-    protocol = "tcp"
-    port_range = "1-65535"
-    destination_addresses = ["0.0.0.0/0", "::/0"]
-  }
-
-  outbound_rule {
-    protocol = "udp"
-    port_range = "1-65535"
-    destination_addresses = ["0.0.0.0/0", "::/0"]
-  }
-
-  outbound_rule {
-    protocol = "icmp"
-    port_range = "1-65535"
-    destination_addresses = ["0.0.0.0/0", "::/0"]
-  }
+  outbound_rule = [
+    {
+      protocol = "tcp"
+      port_range = "1-65535"
+      destination_addresses = ["0.0.0.0/0", "::/0"]
+    },
+    {
+      protocol = "udp"
+      port_range = "1-65535"
+      destination_addresses = ["0.0.0.0/0", "::/0"]
+    },
+    {
+      protocol = "icmp"
+      port_range = "1-65535"
+      destination_addresses = ["0.0.0.0/0", "::/0"]
+    }
+  ]
 }
