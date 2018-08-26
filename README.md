@@ -35,7 +35,7 @@ The backend is used not the same as a website backend. This is used to store ter
 1. Log into google cloud by executing  
    `gcloud init`
 1. Execute the following shell command to set up the storage (this only needs to be run once)   
-   `./scripts/gcs-init.sh [PROJECT_ID] [UNIQUE_BUCKET_NAME]`  
+   `./scripts/backend-init.sh [PROJECT_ID] [UNIQUE_BUCKET_NAME]`  
    This will also output your service account credentials
 1. Create or use an existing DigitalOcean token
 1. `cd terraform`
