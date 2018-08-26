@@ -16,9 +16,21 @@ Install the google cloud sdk at [https://cloud.google.com/sdk/](https://cloud.go
 
 `cd infrastructure`
 
+### Environment Credentials (optional)
+
+Environment credentials will allow some steps to be skipped such as creating a service account though it is still advisable.
+
+These are the credentials that can be used for ease of use:
+* `export GOOGLE_APPLICATION_CREDENTIALS="[PATH]"` for gcs credentials
+* `export INFRA_PROJECT="[PROJECT_ID]` the project ID to use
+* `export INFRA_BUCKET=[BUCKET]` the name of the bucket
+* `export TF_VAR_do_token=[DO_TOKEN]` the Digital Ocean token
+
 ## Usage
 
 ### Backend Creation
+
+The backend is used not the same as a website backend. This is used to store terraform state data.
 
 1. Log into google cloud by executing  
    `gcloud init`
@@ -30,6 +42,10 @@ Install the google cloud sdk at [https://cloud.google.com/sdk/](https://cloud.go
 1. Initialize the backend with the bucket name  
    `terraform init -input=true`  
    1. input the `[UNIQUE_BUCKET_NAME]`
+   
+### Network Creation
+
+
 
 ## Reasoning
 

@@ -12,17 +12,17 @@ provider "digitalocean" {
 }
 
 module "tags" {
-  source = "./tags"
+  source = "..\/do-tags"
 }
 
 module "firewall" {
-  source = "./firewall"
+  source = "..\/do-firewall"
 
   restricted_tag = "${module.tags.restricted}"
 }
 
 module "vault" {
-  source = "./vault"
+  source = "..\/vault"
 
   vault_ssh_id = "${var.vault_ssh_id}"
   firewall_restricted_tag = "${module.tags.restricted}"
