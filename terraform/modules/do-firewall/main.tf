@@ -19,7 +19,7 @@ resource "digitalocean_firewall" "main" {
     },
     {
       protocol = "tcp"
-      port_range = "8000"
+      port_range = "80"
       source_tags = ["${var.restricted}"]
       source_addresses = ["${var.restricted_ips}"]
     },
