@@ -2,16 +2,16 @@ provider "digitalocean" {
   token = "${var.do_token}"
 }
 
-module "do-tags" {
-  source = "./modules/do-tags"
+module "tags" {
+  source = "./modules/tags"
 }
 
-module "do-firewall" {
-  source = "./modules/do-firewall"
+module "firewall" {
+  source = "./modules/firewall"
 
-  public = "${module.do-tags.public}"
-  restricted = "${module.do-tags.restricted}"
-  ssh = "${module.do-tags.ssh}"
+  public = "${module.tags.public}"
+  restricted = "${module.tags.restricted}"
+  ssh = "${module.tags.ssh}"
   ssh_ips = "${var.ssh_ips}"
   restricted_ips = "${var.restricted_ips}"
 }
