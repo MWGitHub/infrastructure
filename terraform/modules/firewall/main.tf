@@ -18,8 +18,8 @@ locals {
   ]
 }
 
-resource "digitalocean_firewall" "public" {
-  name = "public"
+resource "digitalocean_firewall" "external" {
+  name = "external"
 
   inbound_rule = [
     {
@@ -37,19 +37,19 @@ resource "digitalocean_firewall" "public" {
   outbound_rule = "${local.outbound_rule}"
 }
 
-resource "digitalocean_firewall" "restricted" {
-  name = "restricted"
+resource "digitalocean_firewall" "internal" {
+  name = "internal"
 
   inbound_rule = [
     {
       protocol = "tcp"
       port_range = "443"
-      source_tags = ["${var.public}", "${var.restricted}"]
+      source_tags = ["${var.external}", "${var.internal}"]
     },
     {
       protocol = "tcp"
       port_range = "80"
-      source_tags = ["${var.public}", "${var.restricted}"]
+      source_tags = ["${var.external}", "${var.internal}"]
     },
     {
       protocol = "tcp"

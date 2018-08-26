@@ -1,9 +1,9 @@
-variable "public" {
-  description = "The tag for public"
+variable "external" {
+  description = "The tag for external"
 }
 
-variable "restricted" {
-  description = "The tag for the restricted"
+variable "internal" {
+  description = "The tag for the internal"
 }
 
 variable "ssh" {

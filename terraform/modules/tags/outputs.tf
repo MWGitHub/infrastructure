@@ -1,10 +1,10 @@
-output "public" {
-  value = "${digitalocean_tag.public.name}"
+output "external" {
+  value = "${digitalocean_tag.external.name}"
 }
 
 
-output "restricted" {
-  value = "${digitalocean_tag.restricted.name}"
+output "internal" {
+  value = "${digitalocean_tag.internal.name}"
 }
 
 output "ssh" {

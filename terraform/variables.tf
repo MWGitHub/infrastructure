@@ -7,9 +7,3 @@ variable whitelist_ips {
   default = []
   description = "The IPs which can access restricted hosts."
 }
-
-variable admin_ips {
-  type = "list"
-  default = []
-  description = "The IPs which have admin access and can open secure shells to resources."
-}

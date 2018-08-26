@@ -9,8 +9,8 @@ module "tags" {
 module "firewall" {
   source = "./modules/firewall"
 
-  public = "${module.tags.public}"
-  restricted = "${module.tags.restricted}"
+  external = "${module.tags.external}"
+  internal = "${module.tags.internal}"
   ssh = "${module.tags.ssh}"
   whitelist = "${module.tags.whitelist}"
 

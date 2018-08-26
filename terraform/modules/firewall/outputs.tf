@@ -1,9 +1,9 @@
-output "firewall_public" {
-  value = "${digitalocean_firewall.public.id}"
+output "firewall_external" {
+  value = "${digitalocean_firewall.external.id}"
 }
 
-output "firewall_restricted" {
-  value = "${digitalocean_firewall.restricted.id}"
+output "firewall_internal" {
+  value = "${digitalocean_firewall.internal.id}"
 }
 
 output "firewall_whitelist" {

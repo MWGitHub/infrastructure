@@ -4,7 +4,7 @@ Creates firewall rules with sources and tags.
 
 ## Firewalls
 
-* public
+* external
     * inbound
         * ports: 443
             * sources: 0.0.0.0/0
@@ -12,10 +12,10 @@ Creates firewall rules with sources and tags.
             * sources: ssh
     * outbound
         * ports: all
-* restricted
+* internal
     * inbound
         * ports: 443, 80
-            * sources: public, restricted
+            * sources: external, internal
         * ports: 22
             * sources: ssh
     * outbound

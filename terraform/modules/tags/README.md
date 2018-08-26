@@ -6,9 +6,9 @@ Tags are not tied to ports or IPs but are more of a signal for what type a resou
 
 ## Tag Types
 
-* public
+* external
     * Signals a resource which is accessible to the world.
-* restricted
+* internal
     * Signals a resource that is internal.
 * ssh
     * Signals a resource that can be secure shelled into.

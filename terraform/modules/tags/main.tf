@@ -1,10 +1,10 @@
-resource "digitalocean_tag" "public" {
-  name = "public"
+resource "digitalocean_tag" "external" {
+  name = "external"
 }
 
 
-resource "digitalocean_tag" "restricted" {
-  name = "restricted"
+resource "digitalocean_tag" "internal" {
+  name = "internal"
 }
 
 resource "digitalocean_tag" "ssh" {
