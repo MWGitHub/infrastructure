@@ -30,13 +30,16 @@ These are the credentials that can be used for ease of use:
 
 ### Backend Creation
 
-The backend is used not the same as a website backend. This is used to store terraform state data.
+The backend is used to store terraform state data.  
 
 1. Log into google cloud by executing  
    `gcloud init`
-1. Execute the following shell command to set up the storage (this only needs to be run once)   
-   `./scripts/backend-init.sh [PROJECT_ID] [UNIQUE_BUCKET_NAME]`  
-   This will also output your service account credentials
+1. Execute the following shell command to set up the storage (this only needs to be run once)
+    * if the project has not been created yet run:  
+        `./scripts/backend-init.sh --help`
+    * if the project has already been created run:  
+        `./scripts/backend-init.sh [PROJECT_ID] [UNIQUE_BUCKET_NAME]`
+1. Now your service account credentials should be output, do not store this in git.
 1. Create or use an existing DigitalOcean token
 1. `cd terraform`
 1. Initialize the backend with the bucket name  
