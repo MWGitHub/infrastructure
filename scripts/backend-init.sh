@@ -1,11 +1,18 @@
 #!/usr/bin/env bash
 
 script_name=$(basename $0)
+script_dir=$(dirname "$script_name")
 
-# Log in to GCS before doing executing
+error () {
+    local status="${2:-1}"
+
+    printf "ERROR: %s\n" "$1" >&2
+    exit "$status"
+}
+
+# Log in to GCS before executing
 if [ -z "$(which gcloud)" ]; then
-    echo "gcloud is not installed, check the README on installation steps." >&2
-    exit 1
+     error "gcloud is not installed, check the README on installation steps."
 fi
 
 function print_help () {
@@ -26,8 +33,7 @@ else
     args=$(getopt ho:p:r: "$@")
 fi
 if [ $? -ne 0 ]; then
-    echo "Usage error (use -h for help)" >&2
-    exit 2
+    error "Usage error (use -h for help)" 2
 fi
 eval set -- "${args}"
 
@@ -68,23 +74,68 @@ done
 project_id=$1
 bucket=$2
 
-# Create the project if needed otherwise assume a project already is created when given just the id.
-if [ -n "$project_name" ]; then
-    organization_flag=
+if [ -z "$project_id" ] || [ -z "$bucket" ]; then
+    error "[project-id] and [bucket-name] are required"
+fi
+
+# Create the project if needed
+function create_project () {
+    local project_exists
+    project_exists=$(gcloud projects describe "$project_id" | grep name)
+
+    if [ -n "$project_exists" ]; then
+        return 0
+    fi
+
+    local organization_flag=
     if [ -n "$organization_flag" ]; then
         organization_flag=" --organization=$organization_id"
     fi
-    gcloud projects create "$project_id" --name="$project_name" "$organization_flag"
-fi
+    local name_flag=
+    if [ -n "$project_name" ]; then
+        name_flag=" --name=$project_name"
+    fi
+
+    gcloud projects create "$project_id" "$name_flag" "$organization_flag"
+}
 
 # Create the bucket if needed
-gsutil mb -p "$project_id" -c regional -l "$region" gs://"$bucket"/
+function create_bucket () {
+    local bucket_exists=
+    bucket_exists=$(gsutil ls -b gs://"$bucket" 2>&1 | grep 404)
+    if [ -z "$bucket_exists" ]; then
+        return 0
+    fi
+    gsutil mb -p "$project_id" -c regional -l "$region" gs://"$bucket"/
+}
 
-# Create a service account for terraform backend
-gcloud iam service-accounts create terraform-backend --display-name "terraform-backend"
+# Create the service account for just backend access
+function create_backend_service () {
+    local service_exists=
+    service_exists=$(gcloud iam service-accounts describe terraform-backend@infrastructure-mw.iam.gserviceaccount.com | grep name)
+    if [ -z "$service_exists" ]; then
+        gcloud iam service-accounts create terraform-backend --display-name "terraform-backend"
+    fi
 
-# Give permissions for the service account
-gsutil iam ch serviceAccount:terraform-backend@"$project_id".iam.gserviceaccount.com:objectAdmin gs://"$bucket"/
+    local service_account=terraform-backend@"$project_id".iam.gserviceaccount.com
 
-# Generate service account key
-gcloud iam service-accounts keys create terraform-backend.json --iam-account terraform-backend@"$project_id".iam.gserviceaccount.com
+    # Give permissions
+    gsutil iam ch serviceAccount:"$service_account":objectAdmin gs://"$bucket"/
+
+    # Generate account key
+    if [ ! -e "$script_dir/terraform-backend.json" ]; then
+        local existing_key=
+        existing_key=$(gcloud iam service-accounts keys list --iam-account="$service_account" \
+         | awk 'NR==2 && $1 !~ /KEY_ID/ { print $1 }')
+         if [ -n "$existing_key" ]; then
+            gcloud iam service-accounts keys delete "$existing_key" --iam-account="$service_account" -q
+         fi
+        gcloud iam service-accounts keys create "$script_dir/terraform-backend.json" --iam-account terraform-backend@"$project_id".iam.gserviceaccount.com
+    fi
+}
+
+create_project
+create_bucket
+create_backend_service
+
+echo "Backend is initialized"
