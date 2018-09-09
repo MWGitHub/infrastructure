@@ -12,6 +12,8 @@ Install terraform at [https://www.terraform.io/downloads.html](https://www.terra
 
 Install the google cloud sdk at [https://cloud.google.com/sdk/](https://cloud.google.com/sdk/).
 
+Install `go` at [https://golang.org/dl/](https://golang.org/dl/).
+
 `git clone git@gitlab.com:mwguy/infrastructure.git`
 
 `cd infrastructure`
@@ -39,6 +41,8 @@ The backend is used to store terraform state data.
         `./scripts/backend-init.sh --help`
     * if the project has already been created run:  
         `./scripts/backend-init.sh [PROJECT_ID] [UNIQUE_BUCKET_NAME]`
+1. Install third party plugins with  
+   `./scripts/install-plugins.sh`
 1. Now your service account credentials should be output, do not store this in git.
 1. Create or use an existing DigitalOcean token
 1. `cd terraform`
