@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 script_name=$(basename $0)
-script_dir=$(dirname "$script_name")
+script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" > /dev/null && pwd)"
 
 error () {
     local status="${2:-1}"
@@ -123,19 +123,27 @@ function create_backend_service () {
     gsutil iam ch serviceAccount:"$service_account":objectAdmin gs://"$bucket"/
 
     # Generate account key
-    if [ ! -e "$script_dir/terraform-backend.json" ]; then
+    if [ ! -e "$script_dir/../terraform-backend.json" ]; then
         local existing_key=
         existing_key=$(gcloud iam service-accounts keys list --iam-account="$service_account" \
          | awk 'NR==2 && $1 !~ /KEY_ID/ { print $1 }')
          if [ -n "$existing_key" ]; then
             gcloud iam service-accounts keys delete "$existing_key" --iam-account="$service_account" -q
          fi
-        gcloud iam service-accounts keys create "$script_dir/terraform-backend.json" --iam-account "$service_account"
+        gcloud iam service-accounts keys create "$script_dir/../terraform-backend.json" --iam-account "$service_account"
     fi
+}
+
+function init_backend () {
+    cd "$script_dir/../terraform" || error "No terraform directory found"
+    terraform init \
+        -backend-config="project=$project_id" \
+        -backend-config="bucket=$bucket"
 }
 
 create_project
 create_bucket
 create_backend_service
+init_backend
 
 echo "Backend is initialized"
