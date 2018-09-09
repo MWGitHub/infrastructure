@@ -130,7 +130,7 @@ function create_backend_service () {
          if [ -n "$existing_key" ]; then
             gcloud iam service-accounts keys delete "$existing_key" --iam-account="$service_account" -q
          fi
-        gcloud iam service-accounts keys create "$script_dir/terraform-backend.json" --iam-account terraform-backend@"$project_id".iam.gserviceaccount.com
+        gcloud iam service-accounts keys create "$script_dir/terraform-backend.json" --iam-account "$service_account"
     fi
 }
 
