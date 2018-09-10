@@ -3,9 +3,10 @@ variable project_id {
   description = "Id of the GCP project."
 }
 
-variable region {
+variable "region" {
   type = "string"
-  description = "Region to use."
+  description = "Region for the cluster."
+  default = "us-east1"
 }
 
 variable "master_authorized_networks" {
