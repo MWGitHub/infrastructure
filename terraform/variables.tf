@@ -1,9 +1,9 @@
-variable do_token {
-  description = "The Digital Ocean token associated with the project."
+variable project_id {
+  type = "string"
+  description = "Id of the GCP project."
 }
 
-variable whitelist_ips {
-  type = "list"
-  default = []
-  description = "The IPs which can access restricted hosts."
+variable region {
+  type = "string"
+  description = "Region to use."
 }

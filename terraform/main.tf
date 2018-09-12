@@ -4,6 +4,5 @@ terraform {
   backend "gcs" {
     prefix = "terraform/state"
     credentials = "../terraform-backend.json"
-    region = "us-central1"
   }
 }

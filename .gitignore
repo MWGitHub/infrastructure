@@ -3,3 +3,5 @@
 *tfstate
 *.tfstate*
 terraform-backend.json
+terraform/main.auto.tfvars
+terraform/backend.tfvars
