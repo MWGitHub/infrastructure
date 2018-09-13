@@ -6,3 +6,8 @@ terraform {
     credentials = "../terraform-backend.json"
   }
 }
+
+module "kubernetes-gcp" {
+  source = "./modules/kubernetes-gcp"
+  project_id = "${var.project_id}"
+}
