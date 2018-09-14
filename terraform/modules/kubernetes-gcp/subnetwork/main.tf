@@ -6,10 +6,6 @@ resource "google_compute_subnetwork" "subnetwork" {
   private_ip_google_access = true
   region = "${var.region}"
   secondary_ip_range {
-    ip_cidr_range = ""
-    range_name = ""
-  }
-  secondary_ip_range {
     ip_cidr_range = "${var.cluster_range}"
     range_name = "${var.cluster_name}"
   }
