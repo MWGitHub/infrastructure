@@ -25,7 +25,7 @@ resource "google_container_cluster" "cluster" {
     password = ""
     username = ""
     client_certificate_config {
-      issue_client_certificate = false
+      issue_client_certificate = true
     }
   }
   pod_security_policy_config {

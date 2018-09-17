@@ -52,3 +52,24 @@ module "cluster-us-west" {
   subnetwork_secondary_cluster = "${module.subnetwork-us-west.secondary_cluster}"
   subnetwork_secondary_services = "${module.subnetwork-us-west.secondary_services}"
 }
+
+# Set the kubernetes up
+data "google_client_config" "admin" {}
+
+provider "kubernetes" {
+  alias = "us-east"
+  host = "${module.cluster-us-east.endpoint}"
+  token = "${data.google_client_config.admin.access_token}"
+  client_certificate = "${base64decode(module.cluster-us-east.client_certificate)}"
+  client_key = "${base64decode(module.cluster-us-east.client_key)}"
+  cluster_ca_certificate = "${base64decode(module.cluster-us-east.cluster_ca_certificate)}"
+}
+
+provider "kubernetes" {
+  alias = "us-west"
+  host = "${module.cluster-us-west.endpoint}"
+  token = "${data.google_client_config.admin.access_token}"
+  client_certificate = "${base64decode(module.cluster-us-west.client_certificate)}"
+  client_key = "${base64decode(module.cluster-us-west.client_key)}"
+  cluster_ca_certificate = "${base64decode(module.cluster-us-west.cluster_ca_certificate)}"
+}
